@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
@@ -35,7 +35,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	@Pattern(regexp = Constants.LOGIN_REGEX)
 	@Size(min = 1, max = 50)
 	@Column(length = 50, unique = true, nullable = false)
-	private String login;
+	private String username;
 	
 	@JsonIgnore
 	@NotNull
@@ -63,12 +63,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
 		this.id = id;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -102,6 +102,5 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 	
 }

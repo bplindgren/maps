@@ -11,10 +11,14 @@ import com.entity.User;
 public class UserDTO {
 	
 	private Long id;
+    
+    public static final int PASSWORD_MIN_LENGTH = 4;
+
+    public static final int PASSWORD_MAX_LENGTH = 100;
 
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
-    private String login;
+    private String username;
 
     @Size(max = 50)
     private String firstName;
@@ -24,6 +28,9 @@ public class UserDTO {
 
     @Size(min = 5, max = 254)
     private String email;
+
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
+    private String password;
 
     private String createdBy;
 
@@ -39,10 +46,11 @@ public class UserDTO {
 
 	public UserDTO(User user) {
 		this.id = user.getId();
-		this.login = user.getLogin();
+		this.username = user.getUsername();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.email = user.getEmail();
+		this.password = user.getPassword();
 		this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
@@ -57,12 +65,12 @@ public class UserDTO {
 		this.id = id;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getFirstName() {
@@ -87,6 +95,14 @@ public class UserDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getCreatedBy() {
@@ -125,7 +141,7 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-            "login='" + login + '\'' +
+            "login='" + username + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
