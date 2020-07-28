@@ -15,7 +15,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -25,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder(16);
 	}
 	
 	@Override
@@ -40,9 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().permitAll().and()
 			.logout()
 			.permitAll()
-			.logoutRequestMatcher( new AntPathRequestMatcher("/users/logout", "POST"))
+//			.logoutRequestMatcher( new AntPathRequestMatcher("/users/logout", "POST"))
 			.and()
-			.formLogin().loginPage("/users/login").and()
+//			.formLogin().loginPage("/users/login").and()
 			//enabling the basic authentication
 			.httpBasic().and()
 			// configuring the session on the server

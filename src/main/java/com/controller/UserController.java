@@ -16,8 +16,8 @@ import service.dto.UserDTO;
 @RestController
 public class UserController {
 	
-	private UserService userService;
-	private UserRepository userRepository;
+	private final UserService userService;
+	private final UserRepository userRepository;
 	
 	public UserController(UserService userService, UserRepository userRepository) {
 		this.userService = userService;
@@ -32,7 +32,7 @@ public class UserController {
 	 * @throws Exception if login or email are already in use
 	 */
 	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) throws Exception {
+	public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) throws Exception {	
 		if(userRepository.findByUsernameIgnoreCase(userDTO.getUsername()).isPresent()) {
 			throw new Exception("Username already in use");
 		} else if(userRepository.findByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {

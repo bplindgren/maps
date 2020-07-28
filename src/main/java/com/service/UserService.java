@@ -14,12 +14,12 @@ import service.dto.UserDTO;
 @Transactional
 public class UserService {
 	
-	private UserRepository userRepository;
-	private PasswordEncoder passwordEncoder;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	public UserService(UserRepository userRepository) {//, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
-//		this.passwordEncoder = passwordEncoder;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	public User createUser(UserDTO userDTO) {
@@ -27,12 +27,13 @@ public class UserService {
 		user.setUsername(userDTO.getUsername());
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
+		
 		if (userDTO.getEmail() != null) {
 			user.setEmail(userDTO.getEmail().toLowerCase());
 		}
-//		String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
+		String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
 		
-		user.setPassword(userDTO.getPassword());
+		user.setPassword(encryptedPassword);
 		user.setCreatedBy(userDTO.getUsername());
 		user.setLastModifiedBy(userDTO.getUsername());
 		userRepository.save(user);
