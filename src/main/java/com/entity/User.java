@@ -1,17 +1,23 @@
 package com.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -54,6 +60,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	@Size(min = 5, max = 254)
 	@Column(length = 254, unique = true)
 	private String email;
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(
+			name = "user_authority",
+			joinColumns = {@JoinColumn(name = "user_id_fk", referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@BatchSize(size = 20)
+	private Set<Authority> authorities = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -101,6 +117,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Set<Authority> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
 	}
 	
 }

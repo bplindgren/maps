@@ -10,8 +10,8 @@ import com.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	Optional<User> findByEmailIgnoreCase(String email);
+	Optional<User> findOneByEmailIgnoreCase(String email);
 	
-	Optional<User> findByUsernameIgnoreCase(String login);
+	Optional<User> findOneByUsernameIgnoreCase(String login);
 
 }

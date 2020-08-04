@@ -33,9 +33,9 @@ public class UserController {
 	 */
 	@PostMapping("/users")
 	public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) throws Exception {	
-		if(userRepository.findByUsernameIgnoreCase(userDTO.getUsername()).isPresent()) {
+		if(userRepository.findOneByUsernameIgnoreCase(userDTO.getUsername()).isPresent()) {
 			throw new Exception("Username already in use");
-		} else if(userRepository.findByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
+		} else if(userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
 			throw new Exception("Email already in use");
 		} else {
 			User newUser = userService.createUser(userDTO);
