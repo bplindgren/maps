@@ -35,6 +35,7 @@ public class UserService {
 		return userRepository.findOneByUsernameIgnoreCase(username);
 	}
 	
+	@SuppressWarnings("hiding")
 	public <Optional>User createUser(UserDTO userDTO) {
 		User user = new User();
 		user.setUsername(userDTO.getUsername());

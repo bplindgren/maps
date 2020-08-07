@@ -3,7 +3,7 @@ package com.controller;
 import java.net.URI;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.entity.User;
 import com.repository.UserRepository;
 import com.service.UserService;
+import com.utils.HeaderUtil;
 
 import service.dto.UserDTO;
 
@@ -29,12 +30,15 @@ public class UserController {
 	}
 	
 	@GetMapping("/users/{username}")
-	public ResponseEntity<UserDTO> getUser(@PathVariable String username) throws Exception{
+	public ResponseEntity<UserDTO> getUser(@PathVariable String username) throws Exception {
 		Optional<User> user = userService.findByUsername(username);
 		if(user.isPresent()) {
 			UserDTO userDTO = new UserDTO(user.get());
-			ResponseEntity<UserDTO> response = new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
-			return response;
+			
+			URI location = new URI("/users/" + userDTO.getUsername());
+			HttpHeaders responseHeaders = HeaderUtil.createAlert("User found with username: " + userDTO.getUsername(), userDTO.getUsername());
+			return ResponseEntity.created(location).headers(responseHeaders).body(userDTO);			
+			
 		} else {
 			throw new Exception("User was not found");
 		}
@@ -55,8 +59,10 @@ public class UserController {
 			throw new Exception("Email already in use");
 		} else {
 			User newUser = userService.createUser(userDTO);
-			return ResponseEntity.created(new URI("/users" +  newUser.getUsername()))
-					.body(newUser);
+			
+			URI location = new URI("/users/" + newUser.getUsername());
+			HttpHeaders responseHeaders = HeaderUtil.createAlert("User created with username: " + newUser.getUsername(), newUser.getUsername());
+			return ResponseEntity.created(location).headers(responseHeaders).body(newUser);
 		}
 	}	
 

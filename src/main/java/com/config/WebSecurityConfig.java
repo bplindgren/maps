@@ -3,7 +3,9 @@ package com.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,58 +13,56 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private UserDetailsService jwtUserDetailsService;
+	
+	@Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	
+	@Autowired
+	private JwtRequestFilter jwtRequestFilter;
+	
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(16);
 	}
 	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.cors().and()
-			// starts authorizing configurations
-			.authorizeRequests()
-			//ignoring the guest's urls "
-			.antMatchers("/resources/**", "/users/**", "/error").permitAll()
-			//authenticate all remaining URLS
-			.anyRequest().permitAll().and()
-			.logout()
-			.permitAll()
-//			.logoutRequestMatcher( new AntPathRequestMatcher("/users/logout", "POST"))
-			.and()
-//			.formLogin().loginPage("/users/login").and()
-			//enabling the basic authentication
-			.httpBasic().and()
-			// configuring the session on the server
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
-			//disabling.CSRF - Cross Site Request Forgery
-			.csrf().disable();
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
-	
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*");
-			}
-		};
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManager();
+	}
+
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		// We don't need CSRF 
+		httpSecurity
+			.csrf()
+			.disable()
+			.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+			.exceptionHandling()
+				.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+		.and()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and()
+			.authorizeRequests()
+			.antMatchers("/authenticate").permitAll()
+			.anyRequest().authenticated();
 	}
 	
 }
