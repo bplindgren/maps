@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.utils.HeaderUtil;
 import service.dto.UserDTO;
 
 @RestController
+@CrossOrigin
 public class UserController {
 	
 	private final UserService userService;
