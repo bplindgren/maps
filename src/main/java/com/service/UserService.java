@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.entity.Authority;
 import com.entity.User;
+import com.model.ClientUserDTO;
 import com.repository.AuthorityRepository;
 import com.repository.UserRepository;
 import com.security.AuthorityConstants;
-
-import service.dto.UserDTO;
 
 @Service
 @Transactional
@@ -36,7 +35,7 @@ public class UserService {
 	}
 	
 	@SuppressWarnings("hiding")
-	public <Optional>User createUser(UserDTO userDTO) {
+	public <Optional>User createUser(ClientUserDTO userDTO) {
 		User user = new User();
 		user.setUsername(userDTO.getUsername());
 		user.setFirstName(userDTO.getFirstName());

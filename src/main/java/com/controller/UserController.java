@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.User;
+import com.model.ClientUserDTO;
+import com.model.UserDTO;
 import com.repository.UserRepository;
 import com.service.UserService;
 import com.utils.HeaderUtil;
-
-import service.dto.UserDTO;
 
 @RestController
 @CrossOrigin
@@ -54,7 +54,7 @@ public class UserController {
 	 * @throws Exception if login or email are already in use
 	 */
 	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) throws Exception {	
+	public ResponseEntity<User> createUser(@RequestBody ClientUserDTO userDTO) throws Exception {	
 		if(userRepository.findOneByUsernameIgnoreCase(userDTO.getUsername()).isPresent()) {
 			throw new Exception("Username already in use");
 		} else if(userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {

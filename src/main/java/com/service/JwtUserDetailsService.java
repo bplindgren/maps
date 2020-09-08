@@ -27,4 +27,5 @@ public class JwtUserDetailsService implements UserDetailsService {
 		
 		return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), new ArrayList<>());
 	}
+
 }

@@ -1,4 +1,4 @@
-package service.dto;
+package com.model;
 
 import java.time.Instant;
 
@@ -11,10 +11,6 @@ import com.entity.User;
 public class UserDTO {
 	
 	private Long id;
-    
-    public static final int PASSWORD_MIN_LENGTH = 4;
-
-    public static final int PASSWORD_MAX_LENGTH = 100;
 
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
@@ -29,9 +25,6 @@ public class UserDTO {
     @Size(min = 5, max = 254)
     private String email;
 
-    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
-    private String password;
-
     private String createdBy;
 
     private Instant createdDate;
@@ -41,7 +34,6 @@ public class UserDTO {
     private Instant lastModifiedDate;
     
     public UserDTO() {
-    	
     }
 
 	public UserDTO(User user) {
@@ -50,7 +42,6 @@ public class UserDTO {
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.email = user.getEmail();
-		this.password = user.getPassword();
 		this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
@@ -97,14 +88,6 @@ public class UserDTO {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -137,7 +120,6 @@ public class UserDTO {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "UserDTO{" +
