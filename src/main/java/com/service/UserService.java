@@ -3,6 +3,7 @@ package com.service;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
@@ -45,7 +46,7 @@ public class UserService {
 			user.setEmail(userDTO.getEmail().toLowerCase());
 		}
 		String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
-		user.setPassword(encryptedPassword);
+		user.setPassword(encryptedPassword); 
 		//Authority information
 		Set<Authority> authorities = new HashSet<Authority>();
 		authorityRepository.findById(AuthorityConstants.USER).ifPresent(authorities::add);
@@ -56,6 +57,19 @@ public class UserService {
 		user.setLastModifiedBy(userDTO.getUsername());
 		userRepository.save(user);
 		return user;
+	}
+	
+	@SuppressWarnings("hiding")
+	public User updateUser(ClientUserDTO userDTO) {
+		User updatedUser = userRepository.findOneById(userDTO.getId());
+		
+		updatedUser.setFirstName(userDTO.getFirstName());
+		updatedUser.setLastName(userDTO.getLastName());
+		updatedUser.setUsername(userDTO.getUsername());
+		updatedUser.setEmail(userDTO.getEmail());
+		updatedUser.setLastModifiedBy(userDTO.getUsername());
+		
+		return updatedUser;
 	}
 	
 }
