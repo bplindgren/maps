@@ -55,7 +55,7 @@ public class UserController {
 	/**
 	 * {POST /users} - Creates a new user
 	 * 
-	 * @param userDTO the user to create
+	 * @param ClientUserDTO the user to create
 	 * @return the ResponseEntity with status "201" (Created) and with the new User object
 	 * @throws Exception if login or email are already in use
 	 */
@@ -75,20 +75,25 @@ public class UserController {
 		}
 	}	
 	
-//	ResponseEntity<UserDTO> 
-	
+	/**
+	 * {PUT /users} - Updates an existing user
+	 * 
+	 * @param ClientUserDTO the user to create
+	 * @return the ResponseEntity with status "201" (Created) and with the new User object
+	 * @throws Exception if login or email are already in use
+	 */
 	@PutMapping("/users")
 	public ResponseEntity<User> updateUser(@RequestBody ClientUserDTO userDTO) throws Exception {
 		log.debug("REST request made to update User : {}, userDTO");
 		
 		//Find existing User
-		Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+		Optional<User> existingUser = userRepository.findOneByUsernameIgnoreCase(userDTO.getUsername());
 		
 		if(existingUser.isPresent()) {
-//			System.out.println("hi");
 			User updatedUser = userService.updateUser(userDTO);
 			URI location = new URI("/users/" + updatedUser.getUsername());
 			HttpHeaders responseHeaders = HeaderUtil.createAlert("User updated with username: " + updatedUser.getUsername(), updatedUser.getUsername());
+			System.out.println(responseHeaders.toString());
 			return ResponseEntity.created(location).headers(responseHeaders).body(updatedUser);
 		} else {
 			throw new Exception("user not found");
