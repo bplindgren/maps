@@ -1,6 +1,6 @@
 package com.model;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -27,11 +27,11 @@ public class UserDTO {
 
     private String createdBy;
 
-    private Instant createdDate;
+    private OffsetDateTime createdDate;
 
     private String lastModifiedBy;
 
-    private Instant lastModifiedDate;
+    private OffsetDateTime lastModifiedDate;
     
     public UserDTO() {
     }
@@ -96,11 +96,11 @@ public class UserDTO {
 		this.createdBy = createdBy;
 	}
 
-	public Instant getCreatedDate() {
+	public OffsetDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Instant createdDate) {
+	public void setCreatedDate(OffsetDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -112,11 +112,11 @@ public class UserDTO {
 		this.lastModifiedBy = lastModifiedBy;
 	}
 
-	public Instant getLastModifiedDate() {
+	public OffsetDateTime getLastModifiedDate() {
 		return lastModifiedDate;
 	}
 
-	public void setLastModifiedDate(Instant lastModifiedDate) {
+	public void setLastModifiedDate(OffsetDateTime lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
