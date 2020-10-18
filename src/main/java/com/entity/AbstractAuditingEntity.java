@@ -1,7 +1,7 @@
 package com.entity;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -33,7 +33,7 @@ public abstract class AbstractAuditingEntity implements Serializable {
 	@CreationTimestamp
 	@Column(name = "created_date", updatable = false)
 	@JsonIgnore	
-	private Instant createdDate = Instant.now();
+	private OffsetDateTime createdDate = OffsetDateTime.now();
 	
 	@LastModifiedBy
 	@Column(name="last_modified_by", length = 50)
@@ -43,7 +43,7 @@ public abstract class AbstractAuditingEntity implements Serializable {
 	@UpdateTimestamp
 	@Column(name = "last_modified_date")
 	@JsonIgnore
-	private Instant lastModifiedDate = Instant.now();
+	private OffsetDateTime lastModifiedDate = OffsetDateTime.now();
 
 	public String getCreatedBy() {
 		return createdBy;
@@ -53,11 +53,11 @@ public abstract class AbstractAuditingEntity implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Instant getCreatedDate() {
+	public OffsetDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Instant createdDate) {
+	public void setCreatedDate(OffsetDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -69,11 +69,11 @@ public abstract class AbstractAuditingEntity implements Serializable {
 		this.lastModifiedBy = lastModifiedBy;
 	}
 
-	public Instant getLastModifiedDate() {
+	public OffsetDateTime getLastModifiedDate() {
 		return lastModifiedDate;
 	}
 
-	public void setLastModifiedDate(Instant lastModifiedDate) {
+	public void setLastModifiedDate(OffsetDateTime lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 	
