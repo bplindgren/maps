@@ -38,7 +38,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		String jwtToken = null;
 		
 		//Remove 'Bearer' to get just the token
-		System.out.println(requestTokenHeader);
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
@@ -54,7 +53,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		
 		//Validate the token 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			System.out.println(username);
 			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 			if(userDetails != null) {
 				if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
