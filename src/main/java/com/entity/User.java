@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.locationtech.jts.geom.Point;
 
 import com.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -70,6 +71,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
 	private Set<Authority> authorities = new HashSet<>();
+
+	@Column(name = "geom")
+    public Point location;
 
 	public Long getId() {
 		return id;
@@ -125,6 +129,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
 	public void setAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
+	}
+
+	public Point getLocation() {
+		return location;
+	}
+
+	public void setLocation(Point location) {
+		this.location = location;
 	}
 	
 }

@@ -32,7 +32,9 @@ public class UserService {
 	}
 	
 	public Optional<User> findByUsername(String username) {
-		return userRepository.findOneByUsernameIgnoreCase(username);
+		Optional<User> user = userRepository.findOneByUsernameIgnoreCase(username);
+		System.out.println(user.get().getEmail() + " - " +  user.get().getLocation());
+		return user;
 	}
 	
 	@SuppressWarnings("hiding")
