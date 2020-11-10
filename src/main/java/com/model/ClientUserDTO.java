@@ -6,6 +6,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.locationtech.jts.geom.Point;
+
 public class ClientUserDTO {
 	
 	private Long id;
@@ -34,6 +36,8 @@ public class ClientUserDTO {
 	private String lastModifiedBy;
 	
 	private Instant lastModifiedDate;
+	
+    public Point location;
 
 	public Long getId() {
 		return id;
@@ -109,6 +113,14 @@ public class ClientUserDTO {
 
 	public void setLastModifiedDate(Instant lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public Point getLocation() {
+		return location;
+	}
+
+	public void setLocation(Point location) {
+		this.location = location;
 	}
 	
 }

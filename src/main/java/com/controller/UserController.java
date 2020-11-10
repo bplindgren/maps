@@ -88,12 +88,11 @@ public class UserController {
 		
 		//Find existing User
 		Optional<User> existingUser = userRepository.findOneByUsernameIgnoreCase(userDTO.getUsername());
-		
+
 		if(existingUser.isPresent()) {
 			User updatedUser = userService.updateUser(userDTO);
 			URI location = new URI("/users/" + updatedUser.getUsername());
 			HttpHeaders responseHeaders = HeaderUtil.createAlert("User updated with username: " + updatedUser.getUsername(), updatedUser.getUsername());
-			System.out.println(responseHeaders.toString());
 			return ResponseEntity.created(location).headers(responseHeaders).body(updatedUser);
 		} else {
 			throw new Exception("user not found");

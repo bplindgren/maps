@@ -3,7 +3,6 @@ package com.service;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
@@ -32,7 +31,8 @@ public class UserService {
 	}
 	
 	public Optional<User> findByUsername(String username) {
-		return userRepository.findOneByUsernameIgnoreCase(username);
+		Optional<User> user = userRepository.findOneByUsernameIgnoreCase(username);
+		return user;
 	}
 	
 	@SuppressWarnings("hiding")
@@ -55,6 +55,7 @@ public class UserService {
 		//timestamp information
 		user.setCreatedBy(userDTO.getUsername());
 		user.setLastModifiedBy(userDTO.getUsername());
+		user.setLocation(userDTO.getLocation());
 		userRepository.save(user);
 		return user;
 	}
@@ -68,6 +69,7 @@ public class UserService {
 		updatedUser.setUsername(userDTO.getUsername());
 		updatedUser.setEmail(userDTO.getEmail());
 		updatedUser.setLastModifiedBy(userDTO.getUsername());
+		updatedUser.setLocation(userDTO.getLocation());
 		
 		return updatedUser;
 	}

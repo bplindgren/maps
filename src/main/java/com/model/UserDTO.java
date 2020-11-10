@@ -5,6 +5,8 @@ import java.time.OffsetDateTime;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.locationtech.jts.geom.Point;
+
 import com.config.Constants;
 import com.entity.User;
 
@@ -33,6 +35,8 @@ public class UserDTO {
 
     private OffsetDateTime lastModifiedDate;
     
+    private Point location;
+    
     public UserDTO() {
     }
 
@@ -46,6 +50,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.location = user.getLocation();
 	}
 
 	public Long getId() {
@@ -120,7 +125,15 @@ public class UserDTO {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-    @Override
+    public Point getLocation() {
+		return location;
+	}
+
+	public void setLocation(Point location) {
+		this.location = location;
+	}
+
+	@Override
     public String toString() {
         return "UserDTO{" +
             "login='" + username + '\'' +
@@ -131,6 +144,7 @@ public class UserDTO {
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
+            ", location=" + location +
             "}";
     }    
     
