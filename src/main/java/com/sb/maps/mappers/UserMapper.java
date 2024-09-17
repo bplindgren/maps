@@ -5,6 +5,7 @@ import com.sb.maps.dtos.UserDto;
 import com.sb.maps.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

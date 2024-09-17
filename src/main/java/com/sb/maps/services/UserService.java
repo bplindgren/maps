@@ -41,6 +41,8 @@ public class UserService {
         }
 
         User user = userMapper.signUpToUser(userDto);
+        user.setCreatedBy(userDto.login());
+        user.setLastModifiedBy(userDto.login());
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.password())));
 
         User savedUser = userRepository.save(user);
