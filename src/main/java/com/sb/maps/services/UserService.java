@@ -8,6 +8,7 @@ import com.sb.maps.exceptions.AppException;
 import com.sb.maps.mappers.UserMapper;
 import com.sb.maps.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class UserService {
         user.setCreatedBy(userDto.login());
         user.setLastModifiedBy(userDto.login());
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.password())));
-
+        user.setLocation(new Point(userDto.location().getX(), userDto.location().getY()));
         User savedUser = userRepository.save(user);
 
         return userMapper.toUserDto(savedUser);
