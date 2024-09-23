@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.geo.Point;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,5 +32,8 @@ public class User extends AbstractAuditingEntity {
     @JsonIgnore
     @Column(name = "password_hash", length = 60, nullable = false)
     private String password;
+
+    @Column(name = "location", nullable = false)
+    private Point location;
 
 }
